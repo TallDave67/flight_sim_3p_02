@@ -166,6 +166,7 @@
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="FrameRate.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="FrameRate.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="LightManager.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />

@@ -14,19 +14,16 @@
 #include "Constants.h"
 #include "DrawingWindow.h"
 #include "EntityManager.h"
+#include "LightManager.h"
 #include "Mesh.h"
 #include "Texture.h"
-#include "DirectionalLight.h"
-#include "PointLight.h"
-#include "SpotLight.h"
 #include "Material.h"
 #include "Shader.h"
 #include "Motion.h"
 #include "Camera.h"
-#include "Utility.h"
-
 #include "FrameRate.h"
 #include "VideoStreamer.h"
+#include "Utility.h"
 
 // Entity Manager
 EntityManager entityManager;
@@ -62,10 +59,8 @@ void CreateObjects()
     groundTexture.LoadTexture(GL_RGBA);
 }
 
-// Lighting
-DirectionalLight directionalLight;
-PointLight pointLights[MAX_POINT_LIGHTS];
-SpotLight spotLights[MAX_SPOT_LIGHTS];
+// Lights
+LightManager lightManager;
 
 // Shaders
 std::string vertex_code_path =  std::string(PATH_INPUT) + std::string(PATH_SHADERS) + std::string("shader.vert");
@@ -102,53 +97,8 @@ int main()
     camera.initialize(&mainWindow, glm::vec3(0.0f, 0.0f, TRANSLATION_MAX_OFFSET), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 
         static_cast<GLfloat>(CAMERA_TRANSLATION_INCREMENT), static_cast<GLfloat>(CAMERA_ROTATION_INCREMENT));
 
-    // Lighting
-    directionalLight.initialize(
-        1.0f, 1.0f, 1.0f, 
-        0.3f, 0.1f, 
-        0.0f, 0.0f, -1.0f
-    );
-    //
-    unsigned int pointLightCount = 0;
-    pointLights[0].initialize(
-        0.0f, 0.0f, 1.0f,
-        0.6f, 0.1f,
-        0.0f, 1.1f, -5.0f,
-        0.3f, 0.1f, 0.1f
-    );
-    pointLightCount++;
-    pointLights[1].initialize(
-        0.0f, 0.0f, 1.0f,
-        0.7f, 1.0f,
-        -4.0f, 2.0f, 4.0f,
-        0.3f, 0.1f, 0.1f
-    );
-    //pointLightCount++;
-    pointLights[2].initialize(
-        0.0f, 0.0f, 1.0f,
-        0.7f, 1.0f,
-        0.0f, 8.0f, -4.0f,
-        0.3f, 0.1f, 0.1f
-    );
-    pointLightCount++;
-    
-    unsigned int spotLightCount = 0;
-    spotLights[0].initialize(
-        1.0f, 1.0f, 1.0f,
-        2.0f, 0.2f,
-        -4.0f, 0.5f, 3.0f,
-        0.3f, 0.2f, 0.1f,
-        0.0f, -1.0f, 0.0f, 0.71f
-    );
-    spotLightCount++;
-    spotLights[1].initialize(
-        1.0f, 1.0f, 1.0f,
-        2.0f, 0.2f,
-        -4.0f, 0.5f, 3.0f,
-        0.3f, 0.2f, 0.1f,
-        0.0f, 1.0f, 0.0f, 0.71f
-    );
-    spotLightCount++;
+    // Create Lights
+    lightManager.initialize();
 
     // Create a perspective projection so we can live in a 3d world
     glm::mat4 projection = glm::perspective(glm::radians(60.0f), static_cast<GLfloat>(mainWindow.getBufferWidth())/static_cast<GLfloat>(mainWindow.getBufferHeight()), 0.1f, 150.0f);
@@ -159,10 +109,6 @@ int main()
     // Video Streaming
     VideoStreamer video_streamer(FPS_MP4);
     video_streamer.prepare(mainWindow.getWidth(), mainWindow.getHeight());
-
-    // Motion
-    Motion spotlightMotion;
-    spotlightMotion.initialize(1.0f, 1.0f, 1.0f, 2.0f, 2.0f, 2.0f, 1.0f);
 
     // Loop until window closed
     while (!mainWindow.shouldClose())
@@ -179,7 +125,7 @@ int main()
 
         // Motion
         entityManager.moveEntities();
-        spotlightMotion.compute_incremental_rotation(DIRECTION_NONE, DIRECTION_POSITIVE, DIRECTION_NONE);
+        lightManager.moveLights();
 
         // Clear window
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -187,13 +133,8 @@ int main()
 
         shaderList[0]->UseShader();
     
-        // Light
-        shaderList[0]->SetDirectionalLight(&directionalLight);
-        shaderList[0]->SetPointLights(pointLights, pointLightCount);
-        //
-        spotLights[0].setDirection(spotlightMotion.get_direction(glm::vec3(0.0f, 0.0f, 0.0001f)));
-        spotLights[1].setDirection(-spotlightMotion.get_direction(glm::vec3(0.0f, 0.0f, 0.0001f)));
-        shaderList[0]->SetSpotLights(spotLights, spotLightCount);
+        // Lights
+        lightManager.setLights(shaderList[0]);
 
         // Projection
         glUniformMatrix4fv(shaderList[0]->GetProjectionLocation(), 1, GL_FALSE, glm::value_ptr(projection));

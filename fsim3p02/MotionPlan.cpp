@@ -5,7 +5,7 @@
 MotionPlan::MotionPlan() :
     start_x(0.0f), start_y(0.0f), start_z(0.0f), 
     start_angle_x(0.0f), start_angle_y(0.0f), start_angle_z(0.0f), start_scale(0.0f),
-    motion_segments(nullptr), current_segment(0), type(MOTION_PLAN_TYPE_NONE)
+    type(MOTION_PLAN_TYPE_NONE), current(0), motion_segments(nullptr), motion_curves(nullptr)
 {
 }
 
@@ -16,9 +16,9 @@ MotionPlan::~MotionPlan()
 void MotionPlan::initialize(
         float _start_x, float _start_y, float _start_z,
         float _start_angle_x, float _start_angle_y, float _start_angle_z, float _start_scale,
-        std::vector<MotionSegment> *_motion_segments, unsigned int _type,
         float _speed_translate_x, float _speed_translate_y, float _speed_translate_z,
-        float _speed_rotate_x, float _speed_rotate_y, float _speed_rotate_z, float _speed_scale
+        float _speed_rotate_x, float _speed_rotate_y, float _speed_rotate_z, float _speed_scale,
+        unsigned int _type, std::vector<MotionSegment> *_motion_segments, std::vector<MotionCurve> *_motion_curves
 )
 {
     start_x = _start_x;
@@ -29,14 +29,15 @@ void MotionPlan::initialize(
     start_angle_z = _start_angle_z;
     start_scale = _start_scale;
 
-    motion_segments = _motion_segments;
-    type =_type;
-
     motion.initialize(
         _speed_translate_x, _speed_translate_y, _speed_translate_z, 
         _speed_rotate_x, _speed_rotate_y, _speed_rotate_z, _speed_scale
     );
     gotoStart();
+
+    type =_type;
+    motion_segments = _motion_segments;
+    motion_curves = _motion_curves;
 }
     
 void MotionPlan::move()
@@ -66,7 +67,7 @@ bool MotionPlan::reset()
     motion.reset_motion();
     gotoStart();
 
-    current_segment = 0;
+    current = 0;
     unsigned int num_frames = 0;
     if (motion_segments)
     {
@@ -85,11 +86,11 @@ bool MotionPlan::next()
     bool n = false;
     if (motion_segments)
     {
-        while (current_segment < static_cast<int>(motion_segments->size()))
+        while (current < static_cast<int>(motion_segments->size()))
         {
-            if (!(*motion_segments)[current_segment].next())
+            if (!(*motion_segments)[current].next())
             {
-                current_segment++;
+                current++;
             }
             else
             {
@@ -103,30 +104,33 @@ bool MotionPlan::next()
 
 void MotionPlan::execute()
 {
-    (*motion_segments)[current_segment].execute();
+    if (motion_segments)
+    {
+        (*motion_segments)[current].execute();
     
-    // Translation
-    if ((*motion_segments)[current_segment].translate)
-    {
-        motion.compute_incremental_translation(
-            (*motion_segments)[current_segment].direction_x, 
-            (*motion_segments)[current_segment].direction_y,
-            (*motion_segments)[current_segment].direction_z);
-    }
+        // Translation
+        if ((*motion_segments)[current].translate)
+        {
+            motion.compute_incremental_translation(
+                (*motion_segments)[current].direction_x, 
+                (*motion_segments)[current].direction_y,
+                (*motion_segments)[current].direction_z);
+        }
 
-    // Rotation
-    if ((*motion_segments)[current_segment].rotate)
-    {
-        motion.compute_incremental_rotation(
-            (*motion_segments)[current_segment].direction_rotate_x,
-            (*motion_segments)[current_segment].direction_rotate_y,
-            (*motion_segments)[current_segment].direction_rotate_z);
-    }
+        // Rotation
+        if ((*motion_segments)[current].rotate)
+        {
+            motion.compute_incremental_rotation(
+                (*motion_segments)[current].direction_rotate_x,
+                (*motion_segments)[current].direction_rotate_y,
+                (*motion_segments)[current].direction_rotate_z);
+        }
 
-    // Scaling
-    if ((*motion_segments)[current_segment].scale)
-    {
-        motion.compute_incremental_scaling((*motion_segments)[current_segment].direction_scale);
+        // Scaling
+        if ((*motion_segments)[current].scale)
+        {
+            motion.compute_incremental_scaling((*motion_segments)[current].direction_scale);
+        }
     }
 }
 

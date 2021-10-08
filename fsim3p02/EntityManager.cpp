@@ -102,8 +102,8 @@ void EntityManager::initialize()
     flyerMotionPlan->initialize(
         25.0f, 1.0f, -20.0f,
         0.0f, 55.0f, -10.0f, 0.2f,
-        &flyerMotionSegments, MOTION_PLAN_TYPE_REPEAT,
-        2.0f, 2.0f, 2.0f, 0.5f, 0.5f, 0.5f, 1.0f);
+        2.0f, 2.0f, 2.0f, 0.5f, 0.5f, 0.5f, 1.0f,
+        MOTION_PLAN_TYPE_REPEAT, &flyerMotionSegments, nullptr);
 
     // *** Floater
     Entity* floater_entity = addEntity();
@@ -118,8 +118,8 @@ void EntityManager::initialize()
     floaterMotionPlan->initialize(
         -2.3f, 1.0f, -4.7f,
         0.0f, 0.0f, 45.0f, 0.75f,
-        &floaterMotionSegments, MOTION_PLAN_TYPE_INFINITE,
-        1.0f, 1.0f, 1.0f, 0.02f, 0.02f, 0.02f, 1.0f);
+        1.0f, 1.0f, 1.0f, 0.02f, 0.02f, 0.02f, 1.0f,
+        MOTION_PLAN_TYPE_INFINITE, &floaterMotionSegments, nullptr);
 }
 
 void EntityManager::moveEntities()

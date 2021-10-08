@@ -51,5 +51,6 @@ private:
 
 private:
     void gotoStart();
+    void setSpeed();
 };
 

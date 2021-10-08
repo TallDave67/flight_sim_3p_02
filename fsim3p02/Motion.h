@@ -25,13 +25,17 @@ public:
     void set_speed_rotate_y(float speed);
     void set_speed_rotate_z(float speed);
     void set_speed_scale(float speed);
+    //
+    float get_speed_translate_average();
 
     // Translation
+    void setPosition(glm::vec3 _position);
     void set_translation(float x, float y, float z);
     void compute_incremental_translation(int direction_x, int direction_y, int direction_z);
     void apply_translation(glm::mat4 & model);
 
     // Rotation
+    void setRotationMatrix(glm::tmat4x4<float> _rotation_matrix);
     void set_rotation(float angle_x, float angle_y, float angle_z);
     void compute_incremental_rotation(int direction_x, int direction_y, int direction_z);
     void apply_rotation(glm::mat4 & model);

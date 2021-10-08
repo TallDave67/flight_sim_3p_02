@@ -77,6 +77,14 @@ bool MotionPlan::reset()
             num_frames += itr_seg->reset();
         }
     }
+    else if (motion_curves)
+    {
+        std::vector<MotionCurve>::iterator itr_curve = motion_curves->begin();
+        for (; itr_curve != motion_curves->end(); itr_curve++)
+        {
+            num_frames += itr_curve->reset();
+        }
+    }
 
     return (num_frames > 0);
 }
@@ -99,6 +107,21 @@ bool MotionPlan::next()
             }
         }
     }
+    else if (motion_curves)
+    {
+        while (current < static_cast<int>(motion_curves->size()))
+        {
+            if (!(*motion_curves)[current].next())
+            {
+                current++;
+            }
+            else
+            {
+                n = true;
+                break;
+            }
+        }
+    }
     return n;
 }
 
@@ -107,12 +130,12 @@ void MotionPlan::execute()
     if (motion_segments)
     {
         (*motion_segments)[current].execute();
-    
+
         // Translation
         if ((*motion_segments)[current].translate)
         {
             motion.compute_incremental_translation(
-                (*motion_segments)[current].direction_x, 
+                (*motion_segments)[current].direction_x,
                 (*motion_segments)[current].direction_y,
                 (*motion_segments)[current].direction_z);
         }
@@ -132,6 +155,16 @@ void MotionPlan::execute()
             motion.compute_incremental_scaling((*motion_segments)[current].direction_scale);
         }
     }
+    else if (motion_curves)
+    {
+
+        glm::vec3 position;
+        glm::tmat4x4<float>  rotation_matrix;
+        (*motion_curves)[current].compute_position(position);
+        (*motion_curves)[current].compute_rotation_matrix(rotation_matrix);
+        motion.setPosition(position);
+        motion.setRotationMatrix(rotation_matrix);
+    }
 }
 
 Motion* MotionPlan::get_motion()
@@ -144,4 +177,17 @@ void MotionPlan::gotoStart()
     motion.set_translation(start_x, start_y, start_z);
     motion.set_rotation(start_angle_x, start_angle_y, start_angle_z);
     motion.set_scaling(start_scale);
+}
+
+void MotionPlan::setSpeed()
+{
+    if (motion_curves)
+    {
+        float speed_translate = motion.get_speed_translate_average();
+        std::vector<MotionCurve>::iterator itr_curve = motion_curves->begin();
+        for (; itr_curve != motion_curves->end(); itr_curve++)
+        {
+            itr_curve->initialize(speed_translate);
+        }
+    }
 }

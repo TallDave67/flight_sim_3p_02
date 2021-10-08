@@ -173,6 +173,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Motion.cpp" />
     <ClCompile Include="MotionCurve.cpp" />
+    <ClCompile Include="MotionCurveFlyer.cpp" />
     <ClCompile Include="MotionPlan.cpp" />
     <ClCompile Include="MotionSegment.cpp" />
     <ClCompile Include="PointLight.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="Motion.h" />
     <ClInclude Include="MotionCurve.h" />
+    <ClInclude Include="MotionCurveFlyer.h" />
     <ClInclude Include="MotionPlan.h" />
     <ClInclude Include="MotionSegment.h" />
     <ClInclude Include="PointLight.h" />

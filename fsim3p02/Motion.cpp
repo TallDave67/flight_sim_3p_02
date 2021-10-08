@@ -64,7 +64,17 @@ void Motion::set_speed_scale(float speed)
     speed_scale = speed;
 }
 
+float Motion::get_speed_translate_average()
+{
+    return (speed_translate_x + speed_translate_y + speed_translate_z) / 3.0f;
+}
+
 // Translation
+void Motion::setPosition(glm::vec3 _position)
+{
+    position = _position;
+}
+
 void Motion::set_translation(float x, float y, float z)
 {
     position.x += x;
@@ -86,6 +96,11 @@ void Motion::apply_translation(glm::mat4& model)
 }
 
 // Rotation
+void Motion::setRotationMatrix(glm::tmat4x4<float> _rotation_matrix)
+{
+    rotation_matrix = _rotation_matrix;
+}
+
 void Motion::set_rotation(float angle_x, float angle_y, float angle_z)
 {
     glm::tmat4x4<float> next_rotation_matrix = glm::eulerAngleYZX(glm::radians(angle_y), glm::radians(angle_z), glm::radians(angle_x));

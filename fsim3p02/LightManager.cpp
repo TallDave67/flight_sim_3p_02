@@ -66,7 +66,7 @@ void LightManager::moveLights()
     spotlightMotion.compute_incremental_rotation(DIRECTION_NONE, DIRECTION_POSITIVE, DIRECTION_NONE);
 }
 
-void LightManager::setLights(std::unique_ptr<Shader> & shader)
+void LightManager::setLights(Shader* shader)
 {
     shader->SetDirectionalLight(&directionalLight);
     shader->SetPointLights(pointLights, pointLightCount);

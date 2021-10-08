@@ -21,7 +21,7 @@ void Entity::moveEntity()
     motionPlan.move();
 }
 
-void Entity::renderEntity(std::unique_ptr<Shader> & shader)
+void Entity::renderEntity(Shader* shader)
 {
     glm::mat4 model_matrix(1.0f);
     Motion* motion = motionPlan.get_motion();

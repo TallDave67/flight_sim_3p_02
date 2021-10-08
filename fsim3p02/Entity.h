@@ -14,7 +14,7 @@ public:
     void initialize(Material* _material);
 
     void moveEntity();
-    void renderEntity(std::unique_ptr<Shader> & shader);
+    void renderEntity(Shader*);
 
     Model* getModel();
     MotionPlan* getMotionPlan();

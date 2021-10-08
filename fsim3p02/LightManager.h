@@ -16,7 +16,7 @@ public:
     void initialize();
 
     void moveLights();
-    void setLights(std::unique_ptr<Shader> & shader);
+    void setLights(Shader*);
 
 private:
     DirectionalLight directionalLight;

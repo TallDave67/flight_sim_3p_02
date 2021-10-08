@@ -131,7 +131,7 @@ void EntityManager::moveEntities()
     }
 }
 
-void EntityManager::renderEntities(std::unique_ptr<Shader>& shader)
+void EntityManager::renderEntities(Shader* shader)
 {
     std::vector<std::unique_ptr<Entity>>::iterator itr = entityList.begin();
     for (; itr != entityList.end(); itr++)
@@ -155,7 +155,9 @@ Material* EntityManager::addMaterial()
 Material* EntityManager::getMaterial(size_t index)
 {
     Material* material = nullptr;
-
-
+    if (index < materialList.size())
+    {
+        material = &(*(materialList[index]));
+    }
     return material;
 }

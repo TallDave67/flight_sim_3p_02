@@ -19,7 +19,7 @@ public:
 
     Entity* addEntity();
     void moveEntities();
-    void renderEntities(std::unique_ptr<Shader> & shader);
+    void renderEntities(Shader*);
     
 private:
     std::vector<std::unique_ptr<Material>> materialList;

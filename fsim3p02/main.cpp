@@ -15,18 +15,23 @@
 #include "DrawingWindow.h"
 #include "EntityManager.h"
 #include "LightManager.h"
+#include "ShaderManager.h"
+
 #include "Mesh.h"
 #include "Texture.h"
 #include "Material.h"
-#include "Shader.h"
 #include "Motion.h"
+
 #include "Camera.h"
 #include "FrameRate.h"
 #include "VideoStreamer.h"
+
 #include "Utility.h"
 
-// Entity Manager
+// Managers
 EntityManager entityManager;
+LightManager lightManager;
+ShaderManager shaderManager;
 
 // Meshes
 std::vector<std::unique_ptr<Mesh>> meshList;
@@ -59,20 +64,6 @@ void CreateObjects()
     groundTexture.LoadTexture(GL_RGBA);
 }
 
-// Lights
-LightManager lightManager;
-
-// Shaders
-std::string vertex_code_path =  std::string(PATH_INPUT) + std::string(PATH_SHADERS) + std::string("shader.vert");
-std::string fragment_code_path =  std::string(PATH_INPUT) + std::string(PATH_SHADERS) + std::string("shader.frag");
-std::vector<std::unique_ptr<Shader>> shaderList;
-
-void CreateShaders()
-{
-    shaderList.push_back(std::make_unique<Shader>());
-    shaderList[0]->CreateFromFile(vertex_code_path.c_str() , fragment_code_path.c_str());
-}
-
 // Camera
 Camera camera;
 
@@ -86,19 +77,17 @@ int main()
         return ret;
     }
 
-    // Create Entities
+    // Initialize our Managers
     entityManager.initialize();
+    lightManager.initialize();
+    shaderManager.initialize();
 
     // Objects to draw and how to draw them
     CreateObjects();
-    CreateShaders();
 
     // Initiliaze our camera
     camera.initialize(&mainWindow, glm::vec3(0.0f, 0.0f, TRANSLATION_MAX_OFFSET), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 
         static_cast<GLfloat>(CAMERA_TRANSLATION_INCREMENT), static_cast<GLfloat>(CAMERA_ROTATION_INCREMENT));
-
-    // Create Lights
-    lightManager.initialize();
 
     // Create a perspective projection so we can live in a 3d world
     glm::mat4 projection = glm::perspective(glm::radians(60.0f), static_cast<GLfloat>(mainWindow.getBufferWidth())/static_cast<GLfloat>(mainWindow.getBufferHeight()), 0.1f, 150.0f);
@@ -123,38 +112,37 @@ int main()
         glfwPollEvents();
         camera.handleKeyEvent();
 
-        // Motion
-        entityManager.moveEntities();
-        lightManager.moveLights();
-
         // Clear window
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        shaderList[0]->UseShader();
+        // Set our shader
+        shaderManager.useShader(0);
     
-        // Lights
-        lightManager.setLights(shaderList[0]);
-
         // Projection
-        glUniformMatrix4fv(shaderList[0]->GetProjectionLocation(), 1, GL_FALSE, glm::value_ptr(projection));
+        glUniformMatrix4fv(shaderManager.getShader(0)->GetProjectionLocation(), 1, GL_FALSE, glm::value_ptr(projection));
 
         // Camera (View)
-        glUniformMatrix4fv(shaderList[0]->GetViewLocation(), 1, GL_FALSE, glm::value_ptr(camera.getView()));
+        glUniformMatrix4fv(shaderManager.getShader(0)->GetViewLocation(), 1, GL_FALSE, glm::value_ptr(camera.getView()));
 
         // Eye
-        glUniform3f(shaderList[0]->GetEyeLocation(), camera.getCameraEye().x, camera.getCameraEye().y, camera.getCameraEye().z);
+        glUniform3f(shaderManager.getShader(0)->GetEyeLocation(), camera.getCameraEye().x, camera.getCameraEye().y, camera.getCameraEye().z);
         
+        // Lights
+        lightManager.moveLights();
+        lightManager.setLights(shaderManager.getShader(0));
+
         // Render
-        entityManager.renderEntities(shaderList[0]);
+        entityManager.moveEntities();
+        entityManager.renderEntities(shaderManager.getShader(0));
         //
         glm::mat4 model(1.0f);
-        glUniformMatrix4fv(shaderList[0]->GetModelLocation(), 1, GL_FALSE, glm::value_ptr(model));;
+        glUniformMatrix4fv(shaderManager.getShader(0)->GetModelLocation(), 1, GL_FALSE, glm::value_ptr(model));;
         groundTexture.UseTexture();
         Material* dullMaterial = entityManager.getMaterial(1);
         if (dullMaterial)
         {
-            dullMaterial->UseMaterial(shaderList[0]->GetSpecularIntensityLocation(), shaderList[0]->GetShininessLocation());
+            dullMaterial->UseMaterial(shaderManager.getShader(0)->GetSpecularIntensityLocation(), shaderManager.getShader(0)->GetShininessLocation());
         }
         meshList[0]->RenderMesh();
 

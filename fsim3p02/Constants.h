@@ -4,6 +4,7 @@
 #include <algorithm> // std::max
 
 // Math
+static const GLfloat PI = 3.141592653589793238463f;
 static const GLfloat DEGREES_IN_CIRCLE = 360.0f;
 static const GLfloat DEGREES_IN_HALF_CIRCLE = 180.0f;
 static const GLfloat DEGREES_IN_QUARTER_CIRCLE = 90.0f;

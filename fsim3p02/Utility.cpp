@@ -112,13 +112,13 @@ void Utility::axis_angle_to_euler(float x, float y, float z, float angle, float 
 	// z /= magnitude;
 	if ((x*y*t + z*s) > 0.998f) { // north pole singularity detected
 		heading = 2*atan2(x*sin(angle/2),cos(angle/2));
-		attitude = static_cast<float>(M_PI)/2.0f;
+		attitude = static_cast<float>(PI)/2.0f;
 		bank = 0;
 		return;
 	}
 	if ((x*y*t + z*s) < -0.998f) { // south pole singularity detected
 		heading = -2*atan2(x*sin(angle/2),cos(angle/2));
-		attitude = -static_cast<float>(M_PI)/2.0f;
+		attitude = -static_cast<float>(PI)/2.0f;
 		bank = 0;
 		return;
 	}

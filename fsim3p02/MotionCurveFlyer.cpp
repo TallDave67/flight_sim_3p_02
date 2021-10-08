@@ -91,8 +91,8 @@ glm::vec3 MotionCurveFlyer::compute_position_on_curve()
     float radius = 6.0f;
     float height = 4.0f;
     float x = radius * cosf(glm::radians(current_t));
-    float y = radius * sinf(glm::radians(current_t));
-    float z = height;
+    float z = radius * sinf(glm::radians(current_t)) + 2.0f;
+    float y= height;
     return glm::vec3(x, y, z);
 }
 
@@ -101,8 +101,8 @@ glm::vec3 MotionCurveFlyer::compute_tangent_on_curve()
 {
     float radius = 6.0f;
     float x = radius * -sinf(glm::radians(current_t));
-    float y = radius * cosf(glm::radians(current_t));
-    float z = 1.0f;
+    float z = radius * cosf(glm::radians(current_t));
+    float y = 0.0f;
     return glm::vec3(x, y, z);
 }
 

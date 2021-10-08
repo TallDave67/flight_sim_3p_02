@@ -18,7 +18,7 @@ void MotionPlan::initialize(
         float _start_angle_x, float _start_angle_y, float _start_angle_z, float _start_scale,
         float _speed_translate_x, float _speed_translate_y, float _speed_translate_z,
         float _speed_rotate_x, float _speed_rotate_y, float _speed_rotate_z, float _speed_scale,
-        unsigned int _type, std::vector<MotionSegment> *_motion_segments, std::vector<MotionCurve> *_motion_curves
+        unsigned int _type, std::vector<MotionSegment> *_motion_segments, std::vector<MotionCurve*> *_motion_curves
 )
 {
     start_x = _start_x;
@@ -38,6 +38,7 @@ void MotionPlan::initialize(
     type =_type;
     motion_segments = _motion_segments;
     motion_curves = _motion_curves;
+    setSpeed();
 }
     
 void MotionPlan::move()
@@ -79,10 +80,10 @@ bool MotionPlan::reset()
     }
     else if (motion_curves)
     {
-        std::vector<MotionCurve>::iterator itr_curve = motion_curves->begin();
+        std::vector<MotionCurve*>::iterator itr_curve = motion_curves->begin();
         for (; itr_curve != motion_curves->end(); itr_curve++)
         {
-            num_frames += itr_curve->reset();
+            num_frames += (*itr_curve)->reset();
         }
     }
 
@@ -111,7 +112,7 @@ bool MotionPlan::next()
     {
         while (current < static_cast<int>(motion_curves->size()))
         {
-            if (!(*motion_curves)[current].next())
+            if (!(*motion_curves)[current]->next())
             {
                 current++;
             }
@@ -159,9 +160,9 @@ void MotionPlan::execute()
     {
 
         glm::vec3 position;
-        glm::tmat4x4<float>  rotation_matrix;
-        (*motion_curves)[current].compute_position(position);
-        (*motion_curves)[current].compute_rotation_matrix(rotation_matrix);
+        glm::tmat4x4<float> rotation_matrix;
+        (*motion_curves)[current]->compute_position(position);
+        (*motion_curves)[current]->compute_rotation_matrix(rotation_matrix);
         motion.setPosition(position);
         motion.setRotationMatrix(rotation_matrix);
     }
@@ -184,10 +185,10 @@ void MotionPlan::setSpeed()
     if (motion_curves)
     {
         float speed_translate = motion.get_speed_translate_average();
-        std::vector<MotionCurve>::iterator itr_curve = motion_curves->begin();
+        std::vector<MotionCurve*>::iterator itr_curve = motion_curves->begin();
         for (; itr_curve != motion_curves->end(); itr_curve++)
         {
-            itr_curve->initialize(speed_translate);
+            (*itr_curve)->initialize(speed_translate);
         }
     }
 }

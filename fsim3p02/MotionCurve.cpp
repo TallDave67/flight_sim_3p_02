@@ -33,10 +33,10 @@ void MotionCurve::compute_position( glm::vec3 & position)
 
 void MotionCurve::compute_rotation_matrix(glm::tmat4x4<float> & rotation_matrix)
 {
-    glm::vec3 tangent = compute_tangent_on_curve();
+    glm::vec3 tangent = glm::normalize(compute_tangent_on_curve());
     float elevation = asinf(tangent.y);
     float azimuth = asinf(tangent.x / cosf(elevation));
-    rotation_matrix = glm::eulerAngleYZX(glm::radians(azimuth), glm::radians(elevation), glm::radians(0.0f));
+    rotation_matrix = glm::eulerAngleYZX(azimuth, elevation, 0.0f);
 }
 
 void MotionCurve::map_frame_to_t()

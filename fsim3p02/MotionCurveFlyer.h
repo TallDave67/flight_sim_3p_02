@@ -4,6 +4,7 @@
 
 class MotionCurveFlyer :  public MotionCurve
 {
+public:
     MotionCurveFlyer();
     ~MotionCurveFlyer();
 

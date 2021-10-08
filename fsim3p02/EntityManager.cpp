@@ -2,6 +2,7 @@
 
 #include "Constants.h"
 #include "MotionSegment.h"
+#include "MotionCurveFlyer.h"
 
 // Motion
 std::vector<MotionSegment> flyerMotionSegments {
@@ -57,6 +58,8 @@ std::vector<MotionSegment> flyerMotionSegments {
     },
 };
 //
+std::vector<MotionCurve*> flyerMotionCurves;
+//
 std::vector<MotionSegment> floaterMotionSegments{
     {   0, 0,
         false, DIRECTION_NONE, DIRECTION_NONE, DIRECTION_NONE,
@@ -72,7 +75,12 @@ EntityManager::EntityManager()
 
 EntityManager::~EntityManager()
 {
-
+    std::vector<MotionCurve*>::iterator itr_curve = flyerMotionCurves.begin();
+    for (; itr_curve != flyerMotionCurves.end(); itr_curve++)
+    {
+        delete (*itr_curve);
+        *itr_curve = nullptr;
+    }
 }
 
 void EntityManager::initialize()
@@ -98,12 +106,15 @@ void EntityManager::initialize()
     flyer_model->initialize(flyer_data.c_str());
     flyer_model->LoadModel();
     //
+    MotionCurveFlyer* motionCurveFlyer = new MotionCurveFlyer();
+    flyerMotionCurves.push_back(motionCurveFlyer);
+    //
     MotionPlan* flyerMotionPlan = flyer_entity->getMotionPlan();
     flyerMotionPlan->initialize(
         25.0f, 1.0f, -20.0f,
         0.0f, 55.0f, -10.0f, 0.2f,
         2.0f, 2.0f, 2.0f, 0.5f, 0.5f, 0.5f, 1.0f,
-        MOTION_PLAN_TYPE_REPEAT, &flyerMotionSegments, nullptr);
+        MOTION_PLAN_TYPE_REPEAT, nullptr, &flyerMotionCurves);
 
     // *** Floater
     Entity* floater_entity = addEntity();

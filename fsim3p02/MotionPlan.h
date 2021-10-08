@@ -23,7 +23,7 @@ public:
         float _start_angle_x, float _start_angle_y, float _start_angle_z, float _start_scale,
         float _speed_translate_x, float _speed_translate_y, float _speed_translate_z,
         float _speed_rotate_x, float _speed_rotate_y, float _speed_rotate_z, float _speed_scale,
-        unsigned int _type, std::vector<MotionSegment> *_motion_segments, std::vector<MotionCurve> *_motion_curves
+        unsigned int _type, std::vector<MotionSegment> *_motion_segments, std::vector<MotionCurve*> *_motion_curves
     );
 
     void move();
@@ -47,7 +47,7 @@ private:
     unsigned int type;
     int current;
     std::vector<MotionSegment> *motion_segments;
-    std::vector<MotionCurve> *motion_curves;
+    std::vector<MotionCurve*> *motion_curves;
 
 private:
     void gotoStart();

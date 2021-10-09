@@ -177,6 +177,7 @@
     <ClCompile Include="MotionPlan.cpp" />
     <ClCompile Include="MotionSegment.cpp" />
     <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="quaternion_utils.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="SpotLight.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="MotionPlan.h" />
     <ClInclude Include="MotionSegment.h" />
     <ClInclude Include="PointLight.h" />
+    <ClInclude Include="quaternion_utils.hpp" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="SpotLight.h" />

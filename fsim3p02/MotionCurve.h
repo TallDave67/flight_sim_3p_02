@@ -30,5 +30,6 @@ private:
     virtual void map_frame_to_t();
     virtual glm::vec3 compute_position_on_curve();
     virtual glm::vec3 compute_tangent_on_curve();
+    virtual glm::vec3 get_starting_orientation();
 };
 

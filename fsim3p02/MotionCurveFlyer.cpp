@@ -1,6 +1,9 @@
 #include "MotionCurveFlyer.h"
 
+#include <math.h>
+
 #include "Constants.h"
+
 
 MotionCurveFlyer::MotionCurveFlyer()
 {
@@ -85,24 +88,12 @@ void MotionCurveFlyer::map_frame_to_t()
     }
 }
 
-
 glm::vec3 MotionCurveFlyer::compute_position_on_curve()
 {
     float radius = 6.0f;
-    float height = 4.0f;
+    float y = radius * sinf(glm::radians(current_t)) + 2.0f;
     float z = radius * cosf(glm::radians(current_t));
-    float x = radius * sinf(glm::radians(current_t)) + 2.0f;
-    float y = height;
-    return glm::vec3(x, y, z);
-}
-
-
-glm::vec3 MotionCurveFlyer::compute_tangent_on_curve()
-{
-    float radius = 6.0f;
-    float z = radius * -sinf(glm::radians(current_t));
-    float x = radius * cosf(glm::radians(current_t));
-    float y = 0.0f;
+    float x = static_cast<float>(pow(y, 2)) + static_cast<float>(pow(z, 2)) - 36.0f;
     return glm::vec3(x, y, z);
 }
 

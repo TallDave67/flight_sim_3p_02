@@ -113,7 +113,7 @@ void EntityManager::initialize()
     flyerMotionPlan->initialize(
         25.0f, 1.0f, -20.0f,
         0.0f, 55.0f, -10.0f, 0.2f,
-        2.0f, 2.0f, 2.0f, 0.5f, 0.5f, 0.5f, 1.0f,
+        0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 1.0f,
         MOTION_PLAN_TYPE_REPEAT, nullptr, &flyerMotionCurves);
 
     // *** Floater

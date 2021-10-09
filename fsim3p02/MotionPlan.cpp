@@ -162,7 +162,7 @@ void MotionPlan::execute()
         glm::vec3 position;
         glm::tmat4x4<float> rotation_matrix;
         (*motion_curves)[current]->compute_position(position);
-        (*motion_curves)[current]->compute_rotation_matrix(rotation_matrix);
+        (*motion_curves)[current]->compute_rotation_matrix(position, rotation_matrix);
         motion.setPosition(position);
         motion.setRotationMatrix(rotation_matrix);
     }

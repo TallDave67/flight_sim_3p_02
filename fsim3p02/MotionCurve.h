@@ -16,7 +16,7 @@ public:
     bool next();
 
     void compute_position(glm::vec3 & position);
-    void compute_rotation_matrix(glm::tmat4x4<float> & rotation_matrix);
+    void compute_rotation_matrix(glm::vec3 current_position, glm::tmat4x4<float> & rotation_matrix);
 
 protected:
     // Duration
@@ -26,10 +26,13 @@ protected:
     // Parameter value
     float current_t;
 
+    // Last position
+    glm::vec3 last_position;
+
 private:
     virtual void map_frame_to_t();
     virtual glm::vec3 compute_position_on_curve();
-    virtual glm::vec3 compute_tangent_on_curve();
     virtual glm::vec3 get_starting_orientation();
+    glm::vec3 compute_current_orientation(glm::vec3 current_position);
 };
 

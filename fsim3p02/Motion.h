@@ -42,7 +42,7 @@ public:
     glm::vec3 get_direction(glm::vec3 _position);
 
     // Scaling
-    void set_scaling(float factor);
+    void set_scaling(float _size);
     void compute_incremental_scaling(int direction);
     void apply_scaling(glm::mat4 & model);
 
@@ -63,6 +63,6 @@ private:
 private:
     float compute_translation_distance(int direction, float speed);
     float compute_rotation_angle(int direction, float speed);
-    float compute_scaling_factor(int direction, float speed);
+    float compute_scaling_size(int direction, float speed);
 };
 

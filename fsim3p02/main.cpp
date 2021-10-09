@@ -33,37 +33,6 @@ EntityManager entityManager;
 LightManager lightManager;
 ShaderManager shaderManager;
 
-// Meshes
-std::vector<std::unique_ptr<Mesh>> meshList;
-
-// Ground Mesh
-GLfloat ground_vertices[] = {
-    //   x       y      z        u       v    nx    ny    nz
-    -12.0f,  -6.0f,  12.0f,  0.00f,  0.00f, 0.0f, 1.0f, 0.0f, //corner bottom left
-     12.0f,  -6.0f,  12.0f,  0.00f,  1.00f, 0.0f, 1.0f, 0.0f, //corner bottom right
-     12.0f,  -6.0f, -12.0f,  1.00f,  1.00f, 0.0f, 1.0f, 0.0f, //corner top right
-    -12.0f,  -6.0f, -12.0f,  1.00f,  0.00f, 0.0f, 1.0f, 0.0f, //corner top left
-};
-unsigned int num_ground_vertices = 32;
-unsigned int ground_indices[] = {
-    0, 2, 3,
-    0, 1, 2
-};
-unsigned int num_ground_indices = 6;
-
-// Textures
-Texture groundTexture;
-std::string texture_ground_path = std::string(PATH_INPUT) + std::string(PATH_TEXTURES) + std::string("ground.png");
-
-void CreateObjects()
-{
-    // Create Objects without Models
-    meshList.push_back(std::make_unique<Mesh>());
-    meshList[0]->CreateMesh(ground_vertices, ground_indices, num_ground_vertices, num_ground_indices);
-    groundTexture.initialize(texture_ground_path.c_str());
-    groundTexture.LoadTexture(GL_RGBA);
-}
-
 // Camera
 Camera camera;
 
@@ -81,9 +50,6 @@ int main()
     entityManager.initialize();
     lightManager.initialize();
     shaderManager.initialize();
-
-    // Objects to draw and how to draw them
-    CreateObjects();
 
     // Initiliaze our camera
     camera.initialize(&mainWindow, glm::vec3(0.0f, 0.0f, TRANSLATION_MAX_OFFSET), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 
@@ -135,16 +101,6 @@ int main()
         // Render
         entityManager.moveEntities();
         entityManager.renderEntities(shaderManager.getShader(0));
-        //
-        glm::mat4 model(1.0f);
-        glUniformMatrix4fv(shaderManager.getShader(0)->GetModelLocation(), 1, GL_FALSE, glm::value_ptr(model));;
-        groundTexture.UseTexture();
-        Material* dullMaterial = entityManager.getMaterial(1);
-        if (dullMaterial)
-        {
-            dullMaterial->UseMaterial(shaderManager.getShader(0)->GetSpecularIntensityLocation(), shaderManager.getShader(0)->GetShininessLocation());
-        }
-        meshList[0]->RenderMesh();
 
         glUseProgram(0);
 

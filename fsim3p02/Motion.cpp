@@ -131,16 +131,16 @@ glm::vec3 Motion::get_direction(glm::vec3 _position)
 }
 
 // Scaling
-void Motion::set_scaling(float factor)
+void Motion::set_scaling(float _size)
 {
-    size = factor;
+    size = _size;
 }
 
 void Motion::compute_incremental_scaling(int direction)
 {
-    float factor = 0.0f;
-    factor = compute_scaling_factor(direction, speed_scale);
-    size += factor;
+    float _size = 0.0f;
+    _size = compute_scaling_size(direction, speed_scale);
+    size += _size;
 }
 
 void Motion::apply_scaling(glm::mat4& model)
@@ -193,26 +193,26 @@ float Motion::compute_rotation_angle(int direction, float speed)
     return angle;
 }
 
-float Motion::compute_scaling_factor(int direction, float speed)
+float Motion::compute_scaling_size(int direction, float speed)
 {
-    float factor = 0.0f;
+    float _size = 0.0f;
     if (direction == DIRECTION_POSITIVE)
     {
-        factor += (SCALING_INCREMENT*speed);
-        if (factor > SCALING_MAX_SIZE)
+        _size += (SCALING_INCREMENT*speed);
+        if (_size > SCALING_MAX_SIZE)
         {
-            factor = SCALING_MAX_SIZE;
+            _size = SCALING_MAX_SIZE;
         }
     }
     else if (direction == DIRECTION_NEGATIVE)
     {
-        factor -= (SCALING_INCREMENT*speed);
-        if (factor < SCALING_MIN_SIZE)
+        _size -= (SCALING_INCREMENT*speed);
+        if (_size < SCALING_MIN_SIZE)
         {
-            factor = SCALING_MIN_SIZE;
+            _size = SCALING_MIN_SIZE;
         }
     }
-    return factor;
+    return _size;
 }
 
 void Motion::reset_motion()

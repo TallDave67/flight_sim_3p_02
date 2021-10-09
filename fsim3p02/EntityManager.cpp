@@ -129,8 +129,24 @@ void EntityManager::initialize()
     floaterMotionPlan->initialize(
         -2.3f, 1.0f, -4.7f,
         0.0f, 0.0f, 45.0f, 0.75f,
-        1.0f, 1.0f, 1.0f, 0.02f, 0.02f, 0.02f, 1.0f,
+        1.0f, 1.0f, 1.0f, 0.001f, 0.001f, 0.001f, 1.0f,
         MOTION_PLAN_TYPE_INFINITE, &floaterMotionSegments, nullptr);
+
+    // *** Planet
+    Entity* planet_entity = addEntity();
+    planet_entity->initialize(dullMaterial);
+    //
+    std::string planet_data = std::string("Mercury");
+    Model* planet_model = planet_entity->getModel();
+    planet_model->initialize(planet_data.c_str());
+    planet_model->LoadModel();
+    //
+    MotionPlan* planetMotionPlan = planet_entity->getMotionPlan();
+    planetMotionPlan->initialize(
+        0.0f, -32.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 8.0f,
+        1.0f, 1.0f, 1.0f, 0.02f, 0.02f, 0.02f, 2.0f,
+        MOTION_PLAN_TYPE_FINITE, nullptr, nullptr);
 }
 
 void EntityManager::moveEntities()

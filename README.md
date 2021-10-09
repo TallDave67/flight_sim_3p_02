@@ -4,7 +4,7 @@
 
 ## Topic
 
-The scene is an improvement on the #1 scene in a few specific ways:
+The scene is an improvement on the [#1 scene](https://github.com/TallDave67/flight_sim_3p_01) in a few specific ways:
 
 * the x-wing fighter flies along a closed curve and the turns are smooth
 * the ground has been replaced by a spherical moon

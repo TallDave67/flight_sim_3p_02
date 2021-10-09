@@ -5,7 +5,6 @@
 #include "DirectionalLight.h"
 #include "PointLight.h"
 #include "SpotLight.h"
-#include "Motion.h"
 #include "Shader.h"
 
 class LightManager
@@ -27,7 +26,5 @@ private:
 
     unsigned int pointLightCount;
     unsigned int spotLightCount;
-
-    Motion spotlightMotion;
 };
 

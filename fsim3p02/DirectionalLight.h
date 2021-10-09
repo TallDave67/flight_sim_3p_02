@@ -20,5 +20,6 @@ public:
 
 private:
     glm::vec3 direction;
+    glm::vec3 direction_start;
 };
 

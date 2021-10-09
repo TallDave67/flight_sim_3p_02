@@ -1,7 +1,7 @@
 #include "DirectionalLight.h"
 
 DirectionalLight::DirectionalLight() :
-    direction(0.0f, -1.0f, 0.0f)
+    direction(0.0f, -1.0f, 0.0f), direction_start(direction)
 {
 }
 
@@ -17,6 +17,7 @@ void DirectionalLight::initialize(
 {
     Light::initialize(_motion, red, green, blue, _ambientIntensity, _diffuseIntensity);
     direction = glm::vec3(x, y, z);
+    direction_start = direction;
 }
 
 void DirectionalLight::UseLight(

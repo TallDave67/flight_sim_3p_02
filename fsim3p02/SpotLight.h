@@ -21,10 +21,12 @@ public:
         GLuint positionLocation, GLuint constantLocation, GLuint linearLocation, GLuint exponentLocation,
         GLuint directionLocation, GLuint edgeLocation);
 
+    glm::vec3 getDirectionStart();
     void setDirection(glm::vec3 _direction);
 
 private:
     glm::vec3 direction;
+    glm::vec3 direction_start;
     GLfloat edge;
     GLfloat processedEdge;
 };

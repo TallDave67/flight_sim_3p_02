@@ -33,13 +33,14 @@ public:
     void set_translation(float x, float y, float z);
     void compute_incremental_translation(int direction_x, int direction_y, int direction_z);
     void apply_translation(glm::mat4 & model);
+    glm::vec3 get_position();
 
     // Rotation
     void setRotationMatrix(glm::tmat4x4<float> _rotation_matrix);
     void set_rotation(float angle_x, float angle_y, float angle_z);
     void compute_incremental_rotation(int direction_x, int direction_y, int direction_z);
     void apply_rotation(glm::mat4 & model);
-    glm::vec3 get_direction(glm::vec3 _position);
+    glm::tmat4x4<float> get_rotation_matrix();
 
     // Scaling
     void set_scaling(float _size);

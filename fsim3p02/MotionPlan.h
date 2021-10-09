@@ -7,10 +7,10 @@
 #include "MotionSegment.h"
 #include "MotionCurve.h"
 
-static const unsigned int MOTION_PLAN_TYPE_NONE = 0x00000000;
+static const unsigned int MOTION_PLAN_TYPE_NONE     = 0x00000000;
 static const unsigned int MOTION_PLAN_TYPE_INFINITE = 0x00000001;
-static const unsigned int MOTION_PLAN_TYPE_FINITE = 0x00000002;
-static const unsigned int MOTION_PLAN_TYPE_REPEAT = 0x00000004;
+static const unsigned int MOTION_PLAN_TYPE_FINITE   = 0x00000002;
+static const unsigned int MOTION_PLAN_TYPE_REPEAT   = 0x00000004;
 
 class MotionPlan
 {

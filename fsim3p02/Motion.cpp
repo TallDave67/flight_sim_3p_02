@@ -95,6 +95,11 @@ void Motion::apply_translation(glm::mat4& model)
     model = glm::translate(model, glm::vec3(position.x, position.y, position.z));
 }
 
+glm::vec3 Motion::get_position()
+{
+    return position;
+}
+
 // Rotation
 void Motion::setRotationMatrix(glm::tmat4x4<float> _rotation_matrix)
 {
@@ -120,14 +125,9 @@ void  Motion::apply_rotation(glm::mat4& model)
     model *= rotation_matrix;
 }
 
-glm::vec3 Motion::get_direction(glm::vec3 _position)
+glm::tmat4x4<float> Motion::get_rotation_matrix()
 {
-    glm::mat4 model(1.0f);
-    model = model * rotation_matrix;
-    glm::vec3 new_position = glm::vec3(model * glm::vec4(_position, 1.0));
-    glm::vec3 direction = new_position - _position;
-    //printf("Motion::getDirection() x = %2.4f, y = %2.4f, z = %2.4f\n", direction.x, direction.y, direction.z);
-    return direction;
+    return rotation_matrix;
 }
 
 // Scaling

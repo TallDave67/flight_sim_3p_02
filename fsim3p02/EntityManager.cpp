@@ -75,7 +75,7 @@ void EntityManager::initialize()
     floaterMotionPlan->initialize(
         -2.3f, 1.0f, -4.7f,
         0.0f, 0.0f, 45.0f, 0.75f,
-        1.0f, 1.0f, 1.0f, 0.001f, 0.001f, 0.001f, 1.0f,
+        1.0f, 1.0f, 1.0f, 0.0001f, 0.0001f, 0.0001f, 1.0f,
         MOTION_PLAN_TYPE_INFINITE, &floaterMotionSegments, nullptr);
 
     // *** Planet

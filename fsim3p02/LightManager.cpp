@@ -52,36 +52,37 @@ void LightManager::initialize(EntityManager * _entityManager)
         entityManager->getEntity(1)->getMotionPlan()->get_motion(),
         1.0f, 1.0f, 1.0f,
         2.0f, 0.2f,
-        -4.0f, 0.5f, 3.0f,
+        -2.3f, 1.0f, -4.7f,
         0.3f, 0.2f, 0.1f,
-        0.0f, -1.0f, 0.0f, 0.71f
+        0.0f, 0.0f, -1.0f, 0.71f
     );
     ;
     spotLights[spotLightCount++].initialize(
         entityManager->getEntity(1)->getMotionPlan()->get_motion(),
         1.0f, 1.0f, 1.0f,
         2.0f, 0.2f,
-        -4.0f, 0.5f, 3.0f,
+        -2.3f, 1.0f, -4.7f,
         0.3f, 0.2f, 0.1f,
-        0.0f, 1.0f, 0.0f, 0.71f
+        0.0f, 0.0f, 1.0f, 0.71f
     );
-
-    // Motion
-    spotlightMotion.initialize(1.0f, 1.0f, 1.0f, 2.0f, 2.0f, 2.0f, 1.0f);
 }
 
 void LightManager::moveLights()
 {
-    spotlightMotion.compute_incremental_rotation(DIRECTION_NONE, DIRECTION_POSITIVE, DIRECTION_NONE);
+    for (unsigned int i = 0; i < spotLightCount; i++)
+    {
+        glm::vec3 new_direction;
+        if (spotLights[i].getNewDirection(spotLights[i].getDirectionStart(), new_direction))
+        {
+            spotLights[i].setDirection(new_direction);
+        }
+    }
 }
 
 void LightManager::setLights(Shader* shader)
 {
     shader->SetDirectionalLight(&directionalLight);
     shader->SetPointLights(pointLights, pointLightCount);
-    //
-    spotLights[0].setDirection(spotlightMotion.get_direction(glm::vec3(0.0f, 0.0f, 0.0001f)));
-    spotLights[1].setDirection(-spotlightMotion.get_direction(glm::vec3(0.0f, 0.0f, 0.0001f)));
     shader->SetSpotLights(spotLights, spotLightCount);
 }
 

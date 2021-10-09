@@ -23,6 +23,19 @@ void Light::initialize(
     diffuseIntensity = _diffuseIntensity;
 }
 
+bool Light::getNewDirection(glm::vec3 old_direction, glm::vec3 & new_direction)
+{
+    bool got = false;
+    if (motion)
+    {
+        // get quaternion from the rotation matrix
+        glm::quat quaternion = glm::quat_cast(motion->get_rotation_matrix());
+        new_direction = quaternion * old_direction;
+        got = true;
+    }
+    return got;
+}
+
 void Light::UseLight(GLuint colourLocation, GLuint ambientIntensityLocation, GLuint diffuseIntensityLocation)
 {
     glUniform3f(colourLocation, colour.x, colour.y, colour.z);

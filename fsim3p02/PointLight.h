@@ -20,6 +20,7 @@ public:
         GLuint positionLocation, GLuint constantLocation, GLuint linearLocation, GLuint exponentLocation);
 
     void setPosition(glm::vec3 _position);
+    glm::vec3 getPosition();
 
 protected:
     glm::vec3 position;

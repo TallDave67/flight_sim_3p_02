@@ -32,4 +32,5 @@ Shader* ShaderManager::getShader(size_t index)
     {
         shader = &(*(shaderList[index]));
     }
-    return shader;}
+    return shader;
+}

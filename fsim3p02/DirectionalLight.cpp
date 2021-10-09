@@ -10,11 +10,12 @@ DirectionalLight::~DirectionalLight()
 }
 
 void DirectionalLight::initialize(
+    Motion* _motion,
     GLfloat red, GLfloat green, GLfloat blue,
     GLfloat _ambientIntensity, GLfloat _diffuseIntensity,
     GLfloat x, GLfloat y, GLfloat z)
 {
-    Light::initialize(red, green, blue, _ambientIntensity, _diffuseIntensity);
+    Light::initialize(_motion, red, green, blue, _ambientIntensity, _diffuseIntensity);
     direction = glm::vec3(x, y, z);
 }
 

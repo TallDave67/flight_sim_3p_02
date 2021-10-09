@@ -5,61 +5,7 @@
 #include "MotionCurveFlyer.h"
 
 // Motion
-std::vector<MotionSegment> flyerMotionSegments {
-    {   14 * FPS_WINDOW, 0, 
-        true, DIRECTION_NEGATIVE, DIRECTION_NONE, DIRECTION_POSITIVE,
-        false, DIRECTION_NONE, DIRECTION_NONE, DIRECTION_NONE, 
-        false, DIRECTION_NONE
-    },
-    {   2 * FPS_WINDOW, 0, 
-        true, DIRECTION_NEGATIVE, DIRECTION_NONE, DIRECTION_NONE,
-        true, DIRECTION_NONE, DIRECTION_NEGATIVE, DIRECTION_NONE,
-        false, DIRECTION_NONE
-    },
-    {   3 * FPS_WINDOW, 0, 
-        true, DIRECTION_NEGATIVE, DIRECTION_NONE, DIRECTION_NEGATIVE,
-        false, DIRECTION_NONE, DIRECTION_NONE, DIRECTION_NONE, 
-        false, DIRECTION_NONE
-    },
-    {   1 * FPS_WINDOW, 0, 
-        true, DIRECTION_NONE, DIRECTION_NONE, DIRECTION_NEGATIVE,
-        true, DIRECTION_NONE, DIRECTION_NEGATIVE, DIRECTION_NONE,
-        false, DIRECTION_NONE
-    },
-    {   8 * FPS_WINDOW, 0, 
-        true, DIRECTION_POSITIVE, DIRECTION_NONE, DIRECTION_NEGATIVE,
-        false, DIRECTION_NONE, DIRECTION_NONE, DIRECTION_NONE, 
-        false, DIRECTION_NONE
-    },
-    {   1 * FPS_WINDOW, 0, 
-        true, DIRECTION_POSITIVE, DIRECTION_NONE, DIRECTION_POSITIVE,
-        true, DIRECTION_NONE, DIRECTION_NEGATIVE, DIRECTION_NONE,
-        false, DIRECTION_NONE
-    },
-    {   2 * FPS_WINDOW, 0, 
-        true, DIRECTION_POSITIVE, DIRECTION_NONE, DIRECTION_POSITIVE,
-        false, DIRECTION_NONE, DIRECTION_NONE, DIRECTION_NONE, 
-        false, DIRECTION_NONE
-    },
-    {   1 * FPS_WINDOW, 0, 
-        true, DIRECTION_POSITIVE, DIRECTION_POSITIVE, DIRECTION_POSITIVE,
-        true, DIRECTION_NONE, DIRECTION_NONE, DIRECTION_POSITIVE,
-        false, DIRECTION_NONE
-    },
-    {   1 * FPS_WINDOW, 0, 
-        true, DIRECTION_POSITIVE, DIRECTION_POSITIVE, DIRECTION_POSITIVE,
-        true, DIRECTION_NONE, DIRECTION_NEGATIVE, DIRECTION_NONE,
-        false, DIRECTION_NONE
-    },
-    {   12 * FPS_WINDOW, 0, 
-        true, DIRECTION_POSITIVE, DIRECTION_POSITIVE, DIRECTION_POSITIVE,
-        false, DIRECTION_NONE, DIRECTION_NONE, DIRECTION_NONE, 
-        false, DIRECTION_NONE
-    },
-};
-//
 std::vector<MotionCurve*> flyerMotionCurves;
-//
 std::vector<MotionSegment> floaterMotionSegments{
     {   0, 0,
         false, DIRECTION_NONE, DIRECTION_NONE, DIRECTION_NONE,
@@ -171,6 +117,16 @@ Entity* EntityManager::addEntity()
 {
     entityList.push_back(std::make_unique<Entity>());
     return &(*(entityList[entityList.size() - 1]));
+}
+
+Entity* EntityManager::getEntity(size_t index)
+{
+    Entity* entity = nullptr;
+    if (index < entityList.size())
+    {
+        entity = &(*(entityList[index]));
+    }
+    return entity;
 }
 
 Material* EntityManager::addMaterial()

@@ -18,6 +18,8 @@ public:
     Material* getMaterial(size_t index);
 
     Entity* addEntity();
+    Entity* getEntity(size_t index);
+
     void moveEntities();
     void renderEntities(Shader*);
     

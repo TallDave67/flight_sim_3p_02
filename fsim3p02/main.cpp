@@ -48,7 +48,7 @@ int main()
 
     // Initialize our Managers
     entityManager.initialize();
-    lightManager.initialize();
+    lightManager.initialize(&entityManager);
     shaderManager.initialize();
 
     // Initiliaze our camera

@@ -11,12 +11,13 @@ PointLight::~PointLight()
 }
 
 void PointLight::initialize(
+    Motion* _motion,
     GLfloat red, GLfloat green, GLfloat blue,
     GLfloat _ambientIntensity, GLfloat _diffuseIntensity,
     GLfloat x, GLfloat y, GLfloat z,
     GLfloat _constant,  GLfloat _linear, GLfloat _exponent)
 {
-    Light::initialize(red, green, blue, _ambientIntensity, _diffuseIntensity);
+    Light::initialize(_motion, red, green, blue, _ambientIntensity, _diffuseIntensity);
     position = glm::vec3(x, y, z);
     constant = _constant;
     linear = _linear;

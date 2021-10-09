@@ -10,6 +10,7 @@ SpotLight::~SpotLight()
 }
 
 void SpotLight::initialize(
+    Motion* _motion,
     GLfloat red, GLfloat green, GLfloat blue,
     GLfloat _ambientIntensity, GLfloat _diffuseIntensity,
     GLfloat x, GLfloat y, GLfloat z,
@@ -17,6 +18,7 @@ void SpotLight::initialize(
     GLfloat xDir, GLfloat yDir, GLfloat zDir, GLfloat _edge)
 {
     PointLight::initialize(
+        _motion,
         red, green, blue,
         _ambientIntensity, _diffuseIntensity,
         x, y, z,

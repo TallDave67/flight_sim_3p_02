@@ -1,7 +1,7 @@
 #include "LightManager.h"
 
 LightManager::LightManager() : 
-    pointLightCount(0), spotLightCount(0)
+    entityManager(nullptr), pointLightCount(0), spotLightCount(0)
 {
 
 }
@@ -11,10 +11,14 @@ LightManager::~LightManager()
 
 }
 
-void LightManager::initialize()
+void LightManager::initialize(EntityManager * _entityManager)
 {
+    // We need the EntityManager to connect lights to the motion of entities
+    entityManager = _entityManager;
+
     // Create directional light
     directionalLight.initialize(
+        nullptr,
         1.0f, 1.0f, 1.0f, 
         0.3f, 0.1f, 
         0.0f, 0.0f, -1.0f
@@ -22,18 +26,21 @@ void LightManager::initialize()
 
     // Create point lights
     pointLights[pointLightCount++].initialize(
+        nullptr,
         0.0f, 0.0f, 1.0f,
         0.6f, 0.1f,
         0.0f, 1.1f, -5.0f,
         0.3f, 0.1f, 0.1f
     );
     pointLights[pointLightCount++].initialize(
+        nullptr,
         0.0f, 0.0f, 1.0f,
         0.7f, 1.0f,
         -4.0f, 2.0f, 4.0f,
         0.3f, 0.1f, 0.1f
     );
     pointLights[pointLightCount++].initialize(
+        nullptr,
         0.0f, 0.0f, 1.0f,
         0.7f, 1.0f,
         0.0f, 8.0f, -4.0f,
@@ -42,6 +49,7 @@ void LightManager::initialize()
 
     // Create spot lights
     spotLights[spotLightCount++].initialize(
+        entityManager->getEntity(1)->getMotionPlan()->get_motion(),
         1.0f, 1.0f, 1.0f,
         2.0f, 0.2f,
         -4.0f, 0.5f, 3.0f,
@@ -50,6 +58,7 @@ void LightManager::initialize()
     );
     ;
     spotLights[spotLightCount++].initialize(
+        entityManager->getEntity(1)->getMotionPlan()->get_motion(),
         1.0f, 1.0f, 1.0f,
         2.0f, 0.2f,
         -4.0f, 0.5f, 3.0f,

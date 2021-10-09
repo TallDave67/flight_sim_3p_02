@@ -2,7 +2,7 @@
 
 
 PointLight::PointLight() :
-    position(0.0f, 0.0f, 0.0f), constant(1.0f), linear(0.0f), exponent(0.0f)
+    position(0.0f, 0.0f, 0.0f), position_start(position), constant(1.0f), linear(0.0f), exponent(0.0f)
 {
 }
 
@@ -19,6 +19,7 @@ void PointLight::initialize(
 {
     Light::initialize(_motion, red, green, blue, _ambientIntensity, _diffuseIntensity);
     position = glm::vec3(x, y, z);
+    position_start = position;
     constant = _constant;
     linear = _linear;
     exponent = _exponent;
@@ -43,4 +44,9 @@ void PointLight::setPosition(glm::vec3 _position)
 glm::vec3 PointLight::getPosition()
 {
     return position;
+}
+
+glm::vec3 PointLight::getPositionStart()
+{
+    return position_start;
 }

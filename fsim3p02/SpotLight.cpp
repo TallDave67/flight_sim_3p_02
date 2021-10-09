@@ -45,12 +45,17 @@ void SpotLight::UseLight(
     glUniform1f(edgeLocation, edge);
 }
 
-glm::vec3 SpotLight::getDirectionStart()
-{
-    return direction_start;
-}
-
 void SpotLight::setDirection(glm::vec3 _direction)
 {
     direction = _direction;
+}
+
+glm::vec3 SpotLight::getDirection()
+{
+    return direction;
+}
+
+glm::vec3 SpotLight::getDirectionStart()
+{
+    return direction_start;
 }

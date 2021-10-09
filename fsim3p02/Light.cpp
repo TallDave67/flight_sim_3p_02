@@ -23,12 +23,26 @@ void Light::initialize(
     diffuseIntensity = _diffuseIntensity;
 }
 
+bool Light::getNewPosition(glm::vec3 old_position, glm::vec3& new_position)
+{
+    bool got = false;
+    if (motion)
+    {
+        // get position from the motion and add it to
+        // the old_position (the relative position_start)
+        new_position = old_position + motion->get_position();
+        got = true;
+    }
+    return got;
+}
+
 bool Light::getNewDirection(glm::vec3 old_direction, glm::vec3 & new_direction)
 {
     bool got = false;
     if (motion)
     {
-        // get quaternion from the rotation matrix
+        // get quaternion from the motion's rotation matrix and use it to rotate 
+        // the old_direction vector (the absolute direction_start)
         glm::quat quaternion = glm::quat_cast(motion->get_rotation_matrix());
         new_direction = quaternion * old_direction;
         got = true;

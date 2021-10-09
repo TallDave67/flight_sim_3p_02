@@ -21,8 +21,9 @@ public:
         GLuint positionLocation, GLuint constantLocation, GLuint linearLocation, GLuint exponentLocation,
         GLuint directionLocation, GLuint edgeLocation);
 
-    glm::vec3 getDirectionStart();
     void setDirection(glm::vec3 _direction);
+    glm::vec3 getDirection();
+    glm::vec3 getDirectionStart();
 
 private:
     glm::vec3 direction;

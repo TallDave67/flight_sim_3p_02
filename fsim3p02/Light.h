@@ -16,6 +16,7 @@ public:
         GLfloat red, GLfloat green, GLfloat blue,
         GLfloat _ambientIntensity, GLfloat _diffuseIntensity);
 
+    bool getNewPosition(glm::vec3 old_position, glm::vec3 & new_position);
     bool getNewDirection(glm::vec3 old_direction, glm::vec3 & new_direction);
     void UseLight(GLuint colourLocation, GLuint ambientIntensityLocation, GLuint diffuseIntensityLocation);
 

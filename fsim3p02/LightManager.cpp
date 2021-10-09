@@ -26,24 +26,24 @@ void LightManager::initialize(EntityManager * _entityManager)
 
     // Create point lights
     pointLights[pointLightCount++].initialize(
-        nullptr,
-        0.0f, 0.0f, 1.0f,
-        0.6f, 0.1f,
-        0.0f, 1.1f, -5.0f,
+        entityManager->getEntity(0)->getMotionPlan()->get_motion(),
+        0.0f, 1.0f, 0.0f,
+        0.5f, 0.1f,
+        -1.0f, -2.0f, 0.0f,
         0.3f, 0.1f, 0.1f
     );
     pointLights[pointLightCount++].initialize(
-        nullptr,
+        entityManager->getEntity(0)->getMotionPlan()->get_motion(),
         0.0f, 0.0f, 1.0f,
-        0.7f, 1.0f,
-        -4.0f, 2.0f, 4.0f,
+        0.5f, 0.1f,
+        1.0f, -2.0f, 0.0f,
         0.3f, 0.1f, 0.1f
     );
     pointLights[pointLightCount++].initialize(
-        nullptr,
-        0.0f, 0.0f, 1.0f,
-        0.7f, 1.0f,
-        0.0f, 8.0f, -4.0f,
+        entityManager->getEntity(1)->getMotionPlan()->get_motion(),
+        1.0f, 0.0f, 0.0f,
+        0.3f, 0.1f,
+        0.0f, 3.0f, 0.0f,
         0.3f, 0.1f, 0.1f
     );
 
@@ -69,6 +69,15 @@ void LightManager::initialize(EntityManager * _entityManager)
 
 void LightManager::moveLights()
 {
+    for (unsigned int i = 0; i < pointLightCount; i++)
+    {
+        glm::vec3 new_position;
+        if (pointLights[i].getNewPosition(pointLights[i].getPositionStart(), new_position))
+        {
+            pointLights[i].setPosition(new_position);
+        }
+    }
+
     for (unsigned int i = 0; i < spotLightCount; i++)
     {
         glm::vec3 new_direction;

@@ -21,9 +21,11 @@ public:
 
     void setPosition(glm::vec3 _position);
     glm::vec3 getPosition();
+    glm::vec3 getPositionStart();
 
 protected:
     glm::vec3 position;
+    glm::vec3 position_start;
     GLfloat constant;
     GLfloat linear;
     GLfloat exponent;

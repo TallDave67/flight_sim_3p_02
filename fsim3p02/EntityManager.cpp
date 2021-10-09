@@ -89,8 +89,8 @@ void EntityManager::initialize()
     //
     MotionPlan* planetMotionPlan = planet_entity->getMotionPlan();
     planetMotionPlan->initialize(
-        0.0f, -32.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 8.0f,
+        0.0f, -34.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 9.0f,
         1.0f, 1.0f, 1.0f, 0.02f, 0.02f, 0.02f, 2.0f,
         MOTION_PLAN_TYPE_FINITE, nullptr, nullptr);
 }

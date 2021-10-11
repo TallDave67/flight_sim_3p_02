@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -14,7 +16,7 @@ public:
     Camera();
     ~Camera();
 
-    void initialize(DrawingWindow* _win, glm::vec3 _eye, glm::vec3 _worldUp, GLfloat _yaw, GLfloat _pitch, GLfloat _moveSpeed, GLfloat _angleSpeed);
+    void initialize(std::shared_ptr<DrawingWindow> _win, glm::vec3 _eye, glm::vec3 _worldUp, GLfloat _yaw, GLfloat _pitch, GLfloat _moveSpeed, GLfloat _angleSpeed);
     
     void handleKeyEvent();
 
@@ -23,7 +25,7 @@ public:
     glm::mat4 getView();
 
 private:
-    DrawingWindow* win;
+    std::shared_ptr<DrawingWindow> win;
 
     glm::vec3 eye;
     glm::vec3 at;

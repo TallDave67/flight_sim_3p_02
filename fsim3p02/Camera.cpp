@@ -11,7 +11,7 @@ Camera::~Camera()
 {
 }
 
-void Camera::initialize(DrawingWindow* _win, glm::vec3 _eye, glm::vec3 _worldUp, GLfloat _yaw, GLfloat _pitch, GLfloat _moveSpeed, GLfloat _angleSpeed)
+void Camera::initialize(std::shared_ptr<DrawingWindow> _win, glm::vec3 _eye, glm::vec3 _worldUp, GLfloat _yaw, GLfloat _pitch, GLfloat _moveSpeed, GLfloat _angleSpeed)
 {
     win = _win;
     eye = _eye;

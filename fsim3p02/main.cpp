@@ -39,8 +39,13 @@ Camera camera;
 int main()
 {
     // Our main drawing window
-    DrawingWindow mainWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
-    int ret = mainWindow.initialize();
+    std::shared_ptr<DrawingWindow> mainWindow = std::make_shared<DrawingWindow>();
+    if (!mainWindow)
+    {
+        return 1;
+    }
+
+    int ret = mainWindow->initialize(WINDOW_WIDTH, WINDOW_HEIGHT);
     if (ret != 0)
     {
         return ret;
@@ -52,21 +57,21 @@ int main()
     shaderManager.initialize();
 
     // Initiliaze our camera
-    camera.initialize(&mainWindow, glm::vec3(0.0f, 0.0f, TRANSLATION_MAX_OFFSET), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 
+    camera.initialize(mainWindow, glm::vec3(0.0f, 0.0f, TRANSLATION_MAX_OFFSET), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 
         static_cast<GLfloat>(CAMERA_TRANSLATION_INCREMENT), static_cast<GLfloat>(CAMERA_ROTATION_INCREMENT));
 
     // Create a perspective projection so we can live in a 3d world
-    glm::mat4 projection = glm::perspective(glm::radians(60.0f), static_cast<GLfloat>(mainWindow.getBufferWidth())/static_cast<GLfloat>(mainWindow.getBufferHeight()), 0.1f, 150.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(60.0f), static_cast<GLfloat>(mainWindow->getBufferWidth())/static_cast<GLfloat>(mainWindow->getBufferHeight()), 0.1f, 150.0f);
 
     // Set a reasonable frame rate
     FrameRate fr(FPS_WINDOW);
 
     // Video Streaming
     VideoStreamer video_streamer(FPS_MP4);
-    video_streamer.prepare(mainWindow.getWidth(), mainWindow.getHeight());
+    video_streamer.prepare(mainWindow->getWidth(), mainWindow->getHeight());
 
     // Loop until window closed
-    while (!mainWindow.shouldClose())
+    while (!mainWindow->shouldClose())
     {
         // Do we render to the screen?
         if (!fr.is_frame_due())
@@ -108,7 +113,7 @@ int main()
         video_streamer.stream();
 
         // render
-        mainWindow.swapBuffers();
+        mainWindow->swapBuffers();
     }
 
     // finish streaming

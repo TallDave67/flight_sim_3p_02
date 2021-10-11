@@ -10,10 +10,9 @@ class DrawingWindow
 {
 public:
     DrawingWindow();
-    DrawingWindow(GLint _width, GLint _height);
     ~DrawingWindow();
 
-    int initialize();
+    int initialize(GLint _width, GLint _height);
 
     GLint getWidth();
     GLint getHeight();

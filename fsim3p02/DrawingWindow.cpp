@@ -7,20 +7,18 @@ DrawingWindow::DrawingWindow() :
 {
 }
 
-DrawingWindow::DrawingWindow(GLint _width, GLint _height) : DrawingWindow()
-{
-    width = _width;
-    height = _height;
-}
-
 DrawingWindow:: ~DrawingWindow()
 {
     glfwDestroyWindow(win);
     glfwTerminate();
 }
 
-int DrawingWindow::initialize()
+int DrawingWindow::initialize(GLint _width, GLint _height)
 {
+    // Store our dimensions
+    width = _width;
+    height = _height;
+
     // Initialise GLFW
     if (!glfwInit())
     {

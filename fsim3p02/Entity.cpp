@@ -34,7 +34,7 @@ void Entity::renderEntity(std::shared_ptr<Shader> shader)
         glm::mat4 model_matrix(1.0f);
         if (motionPlan)
         {
-            Motion* motion = motionPlan->get_motion();
+            std::shared_ptr<Motion> motion = motionPlan->get_motion();
             if (motion)
             {
                 motion->apply_translation(model_matrix);

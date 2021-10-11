@@ -26,21 +26,21 @@ void LightManager::initialize(EntityManager * _entityManager)
 
     // Create point lights
     pointLights[pointLightCount++].initialize(
-        entityManager->getEntity(0)->getMotionPlan()->get_motion(),
+        entityManager->getEntityMotion(0),
         0.0f, 1.0f, 0.0f,
         0.5f, 0.1f,
         -1.0f, -2.0f, 0.0f,
         0.3f, 0.1f, 0.1f
     );
     pointLights[pointLightCount++].initialize(
-        entityManager->getEntity(0)->getMotionPlan()->get_motion(),
+        entityManager->getEntityMotion(0),
         0.0f, 0.0f, 1.0f,
         0.5f, 0.1f,
         1.0f, -2.0f, 0.0f,
         0.3f, 0.1f, 0.1f
     );
     pointLights[pointLightCount++].initialize(
-        entityManager->getEntity(1)->getMotionPlan()->get_motion(),
+        entityManager->getEntityMotion(1),
         1.0f, 0.0f, 0.0f,
         0.3f, 0.1f,
         0.0f, 3.0f, 0.0f,
@@ -49,7 +49,7 @@ void LightManager::initialize(EntityManager * _entityManager)
 
     // Create spot lights
     spotLights[spotLightCount++].initialize(
-        entityManager->getEntity(1)->getMotionPlan()->get_motion(),
+        entityManager->getEntityMotion(1),
         1.0f, 1.0f, 1.0f,
         2.0f, 0.2f,
         -2.3f, 1.0f, -4.7f,
@@ -58,7 +58,7 @@ void LightManager::initialize(EntityManager * _entityManager)
     );
     ;
     spotLights[spotLightCount++].initialize(
-        entityManager->getEntity(1)->getMotionPlan()->get_motion(),
+        entityManager->getEntityMotion(1),
         1.0f, 1.0f, 1.0f,
         2.0f, 0.2f,
         -2.3f, 1.0f, -4.7f,

@@ -156,6 +156,21 @@ std::shared_ptr<Entity> EntityManager::getEntity(size_t index)
     return entity;
 }
 
+std::shared_ptr<Motion> EntityManager::getEntityMotion(size_t index)
+{
+    std::shared_ptr<Motion> motion = nullptr;
+    std::shared_ptr<Entity> entity = getEntity(index);
+    if (entity)
+    {
+        std::shared_ptr<MotionPlan> motionPlan = entity->getMotionPlan();
+        if (motionPlan)
+        {
+            motion = motionPlan->get_motion();
+        }
+    }
+    return motion;
+}
+
 std::shared_ptr<Material> EntityManager::addMaterial()
 {
     materialList.push_back(std::make_shared<Material>());

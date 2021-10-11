@@ -1,5 +1,6 @@
 #pragma once
-#include<vector>
+#include <vector>
+#include <memory>
 
 #include <glm/glm.hpp>
 
@@ -32,7 +33,7 @@ public:
     bool next();
     void execute();
 
-    Motion* get_motion();
+    std::shared_ptr<Motion> get_motion();
 
 private:
     float start_x;
@@ -43,7 +44,7 @@ private:
     float start_angle_z;
     float start_scale;
     //
-    Motion motion;
+    std::shared_ptr<Motion> motion;
     unsigned int type;
     int current;
     std::vector<MotionSegment> *motion_segments;

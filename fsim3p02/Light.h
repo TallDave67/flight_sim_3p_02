@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
@@ -12,7 +13,7 @@ public:
     ~Light();
 
     void initialize(
-        Motion* _motion,
+        std::shared_ptr<Motion> _motion,
         GLfloat red, GLfloat green, GLfloat blue,
         GLfloat _ambientIntensity, GLfloat _diffuseIntensity);
 
@@ -21,7 +22,7 @@ public:
     void UseLight(GLuint colourLocation, GLuint ambientIntensityLocation, GLuint diffuseIntensityLocation);
 
 protected:
-    Motion* motion;
+    std::shared_ptr<Motion> motion;
     glm::vec3 colour;
     GLfloat ambientIntensity;
     GLfloat diffuseIntensity;

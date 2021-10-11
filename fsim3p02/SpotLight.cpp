@@ -10,7 +10,7 @@ SpotLight::~SpotLight()
 }
 
 void SpotLight::initialize(
-    Motion* _motion,
+    std::shared_ptr<Motion> _motion,
     GLfloat red, GLfloat green, GLfloat blue,
     GLfloat _ambientIntensity, GLfloat _diffuseIntensity,
     GLfloat x, GLfloat y, GLfloat z,

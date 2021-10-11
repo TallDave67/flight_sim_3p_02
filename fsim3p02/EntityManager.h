@@ -4,6 +4,7 @@
 
 #include "Entity.h"
 #include "Material.h"
+#include "Motion.h"
 #include "Shader.h"
 
 class EntityManager
@@ -19,6 +20,7 @@ public:
 
     std::shared_ptr<Entity> addEntity();
     std::shared_ptr<Entity> getEntity(size_t index);
+    std::shared_ptr<Motion> getEntityMotion(size_t index);
 
     void moveEntities();
     void renderEntities(std::shared_ptr<Shader>);

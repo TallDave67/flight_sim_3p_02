@@ -3,7 +3,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 Entity::Entity() :
-    material(nullptr)
+    model(nullptr), motionPlan(nullptr), material(nullptr)
 {
 }
 
@@ -13,36 +13,51 @@ Entity::~Entity()
 
 void Entity::initialize(std::shared_ptr<Material> _material)
 {
+    model = std::make_shared<Model>();
+    motionPlan = std::make_shared<MotionPlan>();
     material = _material;
 }
 
 void Entity::moveEntity()
 {
-    motionPlan.move();
+    if (motionPlan)
+    {
+        motionPlan->move();
+    }
+
 }
 
 void Entity::renderEntity(std::shared_ptr<Shader> shader)
 {
-    glm::mat4 model_matrix(1.0f);
-    Motion* motion = motionPlan.get_motion();
-    motion->apply_translation(model_matrix);
-    motion->apply_rotation(model_matrix);
-    motion->apply_scaling(model_matrix);
-    glUniformMatrix4fv(shader->GetModelLocation(), 1, GL_FALSE, glm::value_ptr(model_matrix));
-    if (material)
+    if (model)
     {
-        material->UseMaterial(shader->GetSpecularIntensityLocation(), shader->GetShininessLocation());
+        glm::mat4 model_matrix(1.0f);
+        if (motionPlan)
+        {
+            Motion* motion = motionPlan->get_motion();
+            if (motion)
+            {
+                motion->apply_translation(model_matrix);
+                motion->apply_rotation(model_matrix);
+                motion->apply_scaling(model_matrix);
+            }
+        }
+        glUniformMatrix4fv(shader->GetModelLocation(), 1, GL_FALSE, glm::value_ptr(model_matrix));
+        if (material)
+        {
+            material->UseMaterial(shader->GetSpecularIntensityLocation(), shader->GetShininessLocation());
+        }
+        model->RenderModel();
     }
-    model.RenderModel();
 }
 
-Model* Entity::getModel()
+std::shared_ptr<Model> Entity::getModel()
 {
-    return &model;
+    return model;
 }
 
-MotionPlan* Entity::getMotionPlan()
+std::shared_ptr<MotionPlan> Entity::getMotionPlan()
 {
-    return &motionPlan;
+    return motionPlan;
 }
 

@@ -45,54 +45,81 @@ void EntityManager::initialize()
 
     // *** Flyer
     std::shared_ptr<Entity> flyer_entity = addEntity();
-    flyer_entity->initialize(shinyMaterial);
-    //
-    std::string flyer_data = std::string("Viper-mk-IV-fighter");
-    Model* flyer_model = flyer_entity->getModel();
-    flyer_model->initialize(flyer_data.c_str());
-    flyer_model->LoadModel();
-    //
-    MotionCurveFlyer* motionCurveFlyer = new MotionCurveFlyer();
-    flyerMotionCurves.push_back(motionCurveFlyer);
-    //
-    MotionPlan* flyerMotionPlan = flyer_entity->getMotionPlan();
-    flyerMotionPlan->initialize(
-        25.0f, 1.0f, -20.0f,
-        0.0f, 55.0f, -10.0f, 0.2f,
-        0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 1.0f,
-        MOTION_PLAN_TYPE_REPEAT, nullptr, &flyerMotionCurves);
+    if (flyer_entity)
+    {
+        flyer_entity->initialize(shinyMaterial);
+        //
+        std::string flyer_data = std::string("Viper-mk-IV-fighter");
+        std::shared_ptr<Model> flyer_model = flyer_entity->getModel();
+        if (flyer_model)
+        {
+            flyer_model->initialize(flyer_data.c_str());
+            flyer_model->LoadModel();
+        }
+        //
+        MotionCurveFlyer* motionCurveFlyer = new MotionCurveFlyer();
+        flyerMotionCurves.push_back(motionCurveFlyer);
+        //
+        std::shared_ptr<MotionPlan> flyerMotionPlan = flyer_entity->getMotionPlan();
+        if (flyerMotionPlan)
+        {
+            flyerMotionPlan->initialize(
+                25.0f, 1.0f, -20.0f,
+                0.0f, 55.0f, -10.0f, 0.2f,
+                0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 1.0f,
+                MOTION_PLAN_TYPE_REPEAT, nullptr, &flyerMotionCurves);
+        }
+    }
 
     // *** Floater
     std::shared_ptr<Entity> floater_entity = addEntity();
-    floater_entity->initialize(dullMaterial);
-    //
-    std::string floater_data = std::string("UHFSatcom");
-    Model* floater_model = floater_entity->getModel();
-    floater_model->initialize(floater_data.c_str());
-    floater_model->LoadModel();
-    //
-    MotionPlan* floaterMotionPlan = floater_entity->getMotionPlan();
-    floaterMotionPlan->initialize(
-        -2.3f, 1.0f, -4.7f,
-        0.0f, 0.0f, 45.0f, 0.75f,
-        1.0f, 1.0f, 1.0f, 0.0001f, 0.0001f, 0.0001f, 1.0f,
-        MOTION_PLAN_TYPE_INFINITE, &floaterMotionSegments, nullptr);
+    if (floater_entity)
+    {
+        floater_entity->initialize(dullMaterial);
+        //
+        std::string floater_data = std::string("UHFSatcom");
+        std::shared_ptr<Model> floater_model = floater_entity->getModel();
+        if (floater_model)
+        {
+            floater_model->initialize(floater_data.c_str());
+            floater_model->LoadModel();
+        }
+        //
+        std::shared_ptr<MotionPlan> floaterMotionPlan = floater_entity->getMotionPlan();
+        if (floaterMotionPlan)
+        {
+            floaterMotionPlan->initialize(
+                -2.3f, 1.0f, -4.7f,
+                0.0f, 0.0f, 45.0f, 0.75f,
+                1.0f, 1.0f, 1.0f, 0.0001f, 0.0001f, 0.0001f, 1.0f,
+                MOTION_PLAN_TYPE_INFINITE, &floaterMotionSegments, nullptr);
+        }
+    }
 
     // *** Planet
     std::shared_ptr<Entity> planet_entity = addEntity();
-    planet_entity->initialize(dullMaterial);
-    //
-    std::string planet_data = std::string("Mercury");
-    Model* planet_model = planet_entity->getModel();
-    planet_model->initialize(planet_data.c_str());
-    planet_model->LoadModel();
-    //
-    MotionPlan* planetMotionPlan = planet_entity->getMotionPlan();
-    planetMotionPlan->initialize(
-        0.0f, -34.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 9.0f,
-        1.0f, 1.0f, 1.0f, 0.02f, 0.02f, 0.02f, 2.0f,
-        MOTION_PLAN_TYPE_FINITE, nullptr, nullptr);
+    if (planet_entity)
+    {
+        planet_entity->initialize(dullMaterial);
+        //
+        std::string planet_data = std::string("Mercury");
+        std::shared_ptr<Model> planet_model = planet_entity->getModel();
+        if (planet_model)
+        {
+            planet_model->initialize(planet_data.c_str());
+            planet_model->LoadModel();
+        }
+        //
+        std::shared_ptr<MotionPlan> planetMotionPlan = planet_entity->getMotionPlan();
+        if (planetMotionPlan)
+        {
+            planetMotionPlan->initialize(
+                0.0f, -34.0f, 0.0f,
+                0.0f, 0.0f, 0.0f, 9.0f,
+                1.0f, 1.0f, 1.0f, 0.02f, 0.02f, 0.02f, 2.0f,
+                MOTION_PLAN_TYPE_FINITE, nullptr, nullptr);
+        }
+    }
 }
 
 void EntityManager::moveEntities()

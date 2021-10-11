@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "Model.h"
 #include "MotionPlan.h"
 #include "Material.h"
@@ -16,12 +18,12 @@ public:
     void moveEntity();
     void renderEntity(std::shared_ptr<Shader>);
 
-    Model* getModel();
-    MotionPlan* getMotionPlan();
+    std::shared_ptr<Model> getModel();
+    std::shared_ptr<MotionPlan> getMotionPlan();
 
 private:
-    Model model;
-    MotionPlan motionPlan;
+    std::shared_ptr<Model> model;
+    std::shared_ptr<MotionPlan> motionPlan;
     std::shared_ptr<Material> material;
 };
 

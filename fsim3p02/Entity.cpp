@@ -11,7 +11,7 @@ Entity::~Entity()
 {
 }
 
-void Entity::initialize(Material* _material)
+void Entity::initialize(std::shared_ptr<Material> _material)
 {
     material = _material;
 }
@@ -21,7 +21,7 @@ void Entity::moveEntity()
     motionPlan.move();
 }
 
-void Entity::renderEntity(Shader* shader)
+void Entity::renderEntity(std::shared_ptr<Shader> shader)
 {
     glm::mat4 model_matrix(1.0f);
     Motion* motion = motionPlan.get_motion();

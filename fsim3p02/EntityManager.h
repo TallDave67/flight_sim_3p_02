@@ -14,17 +14,17 @@ public:
 
     void initialize();
 
-    Material* addMaterial();
-    Material* getMaterial(size_t index);
+    std::shared_ptr<Material> addMaterial();
+    std::shared_ptr<Material> getMaterial(size_t index);
 
-    Entity* addEntity();
-    Entity* getEntity(size_t index);
+    std::shared_ptr<Entity> addEntity();
+    std::shared_ptr<Entity> getEntity(size_t index);
 
     void moveEntities();
-    void renderEntities(Shader*);
+    void renderEntities(std::shared_ptr<Shader>);
     
 private:
-    std::vector<std::unique_ptr<Material>> materialList;
-    std::vector<std::unique_ptr<Entity>> entityList;
+    std::vector<std::shared_ptr<Material>> materialList;
+    std::vector<std::shared_ptr<Entity>> entityList;
 };
 

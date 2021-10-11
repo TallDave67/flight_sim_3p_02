@@ -11,10 +11,10 @@ public:
     Entity();
     ~Entity();
     
-    void initialize(Material* _material);
+    void initialize(std::shared_ptr<Material> _material);
 
     void moveEntity();
-    void renderEntity(Shader*);
+    void renderEntity(std::shared_ptr<Shader>);
 
     Model* getModel();
     MotionPlan* getMotionPlan();
@@ -22,6 +22,6 @@ public:
 private:
     Model model;
     MotionPlan motionPlan;
-    Material* material;
+    std::shared_ptr<Material> material;
 };
 

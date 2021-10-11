@@ -24,8 +24,8 @@ public:
     void ClearModel();
 
 private:
-    std::vector<std::unique_ptr<Mesh>> meshList;
-    std::vector<std::unique_ptr<Texture>> textureList;
+    std::vector<std::shared_ptr<Mesh>> meshList;
+    std::vector<std::shared_ptr<Texture>> textureList;
     std::vector<unsigned int> meshToTex;
 
     std::string name;

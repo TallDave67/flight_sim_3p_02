@@ -34,17 +34,17 @@ void EntityManager::initialize()
     // Create Materials
 
     // *** Shiny
-    Material* shinyMaterial = addMaterial();
+    std::shared_ptr<Material> shinyMaterial = addMaterial();
     shinyMaterial->initialize(1.0f, 32.0f);
 
     // *** Dull
-    Material* dullMaterial = addMaterial();
+    std::shared_ptr<Material> dullMaterial = addMaterial();
     dullMaterial->initialize(0.2f, 4.0f);
 
     // Create Entities
 
     // *** Flyer
-    Entity* flyer_entity = addEntity();
+    std::shared_ptr<Entity> flyer_entity = addEntity();
     flyer_entity->initialize(shinyMaterial);
     //
     std::string flyer_data = std::string("Viper-mk-IV-fighter");
@@ -63,7 +63,7 @@ void EntityManager::initialize()
         MOTION_PLAN_TYPE_REPEAT, nullptr, &flyerMotionCurves);
 
     // *** Floater
-    Entity* floater_entity = addEntity();
+    std::shared_ptr<Entity> floater_entity = addEntity();
     floater_entity->initialize(dullMaterial);
     //
     std::string floater_data = std::string("UHFSatcom");
@@ -79,7 +79,7 @@ void EntityManager::initialize()
         MOTION_PLAN_TYPE_INFINITE, &floaterMotionSegments, nullptr);
 
     // *** Planet
-    Entity* planet_entity = addEntity();
+    std::shared_ptr<Entity> planet_entity = addEntity();
     planet_entity->initialize(dullMaterial);
     //
     std::string planet_data = std::string("Mercury");
@@ -97,50 +97,50 @@ void EntityManager::initialize()
 
 void EntityManager::moveEntities()
 {
-    std::vector<std::unique_ptr<Entity>>::iterator itr = entityList.begin();
+    std::vector<std::shared_ptr<Entity>>::iterator itr = entityList.begin();
     for (; itr != entityList.end(); itr++)
     {
         (*itr)->moveEntity();
     }
 }
 
-void EntityManager::renderEntities(Shader* shader)
+void EntityManager::renderEntities(std::shared_ptr<Shader> shader)
 {
-    std::vector<std::unique_ptr<Entity>>::iterator itr = entityList.begin();
+    std::vector<std::shared_ptr<Entity>>::iterator itr = entityList.begin();
     for (; itr != entityList.end(); itr++)
     {
         (*itr)->renderEntity(shader);
     }
 }
 
-Entity* EntityManager::addEntity()
+std::shared_ptr<Entity> EntityManager::addEntity()
 {
-    entityList.push_back(std::make_unique<Entity>());
-    return &(*(entityList[entityList.size() - 1]));
+    entityList.push_back(std::make_shared<Entity>());
+    return entityList[entityList.size() - 1];
 }
 
-Entity* EntityManager::getEntity(size_t index)
+std::shared_ptr<Entity> EntityManager::getEntity(size_t index)
 {
-    Entity* entity = nullptr;
+    std::shared_ptr<Entity> entity = nullptr;
     if (index < entityList.size())
     {
-        entity = &(*(entityList[index]));
+        entity = entityList[index];
     }
     return entity;
 }
 
-Material* EntityManager::addMaterial()
+std::shared_ptr<Material> EntityManager::addMaterial()
 {
-    materialList.push_back(std::make_unique<Material>());
-    return &(*(materialList[materialList.size() - 1]));
+    materialList.push_back(std::make_shared<Material>());
+    return materialList[materialList.size() - 1];
 }
 
-Material* EntityManager::getMaterial(size_t index)
+std::shared_ptr<Material> EntityManager::getMaterial(size_t index)
 {
-    Material* material = nullptr;
+    std::shared_ptr<Material> material = nullptr;
     if (index < materialList.size())
     {
-        material = &(*(materialList[index]));
+        material = materialList[index];
     }
     return material;
 }

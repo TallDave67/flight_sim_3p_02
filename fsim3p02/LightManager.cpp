@@ -88,7 +88,7 @@ void LightManager::moveLights()
     }
 }
 
-void LightManager::setLights(Shader* shader)
+void LightManager::setLights(std::shared_ptr<Shader> shader)
 {
     shader->SetDirectionalLight(&directionalLight);
     shader->SetPointLights(pointLights, pointLightCount);

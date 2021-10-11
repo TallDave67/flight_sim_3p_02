@@ -13,11 +13,11 @@ public:
     void initialize();
 
     void useShader(size_t index);
-    Shader* getShader(size_t index);
+    std::shared_ptr<Shader> getShader(size_t index);
 
 private:
     std::string vertex_code_path;
     std::string fragment_code_path;
-    std::vector<std::unique_ptr<Shader>> shaderList;
+    std::vector<std::shared_ptr<Shader>> shaderList;
 };
 

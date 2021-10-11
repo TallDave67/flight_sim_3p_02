@@ -54,7 +54,7 @@ void Model::RenderModel()
 
 void Model::ClearModel()
 {
-    // because our Mesh and Texture objects are stored in unique_ptrs in the vectors
+    // because our Mesh and Texture objects are stored in shared_ptrs in the vectors
     // when the vectors go out of scope these objects will be deleted
     // so this function should not be called from the destructor
     std::for_each(meshList.begin(), meshList.end(), [](auto & item) { item.reset(); });
@@ -105,7 +105,7 @@ void Model::LoadMesh(aiMesh* mesh, const aiScene* scene)
     }
 
     // add a new mesh object to our list and then call its create method
-    meshList.push_back(std::make_unique<Mesh>());
+    meshList.push_back(std::make_shared<Mesh>());
     meshList[meshList.size() - 1]->CreateMesh(&vertices[0], &indices[0], 
         static_cast<unsigned int>(vertices.size()), static_cast<unsigned int>(indices.size()));
 
@@ -141,7 +141,7 @@ void Model::LoadMaterials(const aiScene* scene)
                 std::string textPath = std::string(PATH_INPUT) + std::string(PATH_TEXTURES) + name + "/" + filename;
 
                 // add the texture
-                textureList[i] = std::make_unique<Texture>();
+                textureList[i] = std::make_shared<Texture>();
                 textureList[i]->initialize(textPath.c_str());
                 if (!textureList[i]->LoadTexture(GL_RGB))
                 {
@@ -154,7 +154,7 @@ void Model::LoadMaterials(const aiScene* scene)
         // use our default texture if none exists
         if (!textureList[i])
         {
-            textureList[i] = std::make_unique<Texture>();
+            textureList[i] = std::make_shared<Texture>();
             std::string textPath = std::string(PATH_INPUT) + std::string(PATH_TEXTURES) + TEXTURE_DEFAULT;
             textureList[i]->initialize(textPath.c_str());
             textureList[i]->LoadTexture(GL_RGBA);

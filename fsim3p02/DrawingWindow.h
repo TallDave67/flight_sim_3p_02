@@ -25,8 +25,6 @@ public:
     void swapBuffers();
 
     bool getKeyState(int key);
-    GLfloat getMouseChangeX();
-    GLfloat getMouseChangeY();
 
 private:
     GLFWwindow* win;

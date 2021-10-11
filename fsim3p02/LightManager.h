@@ -16,7 +16,7 @@ public:
     void initialize(EntityManager * _entityManager);
 
     void moveLights();
-    void setLights(Shader*);
+    void setLights(std::shared_ptr<Shader>);
 
 private:
     EntityManager* entityManager;

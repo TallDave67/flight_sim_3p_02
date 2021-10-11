@@ -11,7 +11,7 @@ LightManager::~LightManager()
 
 }
 
-void LightManager::initialize(EntityManager * _entityManager)
+void LightManager::initialize(std::shared_ptr<EntityManager> _entityManager)
 {
     // We need the EntityManager to connect lights to the motion of entities
     entityManager = _entityManager;
@@ -90,8 +90,11 @@ void LightManager::moveLights()
 
 void LightManager::setLights(std::shared_ptr<Shader> shader)
 {
-    shader->SetDirectionalLight(&directionalLight);
-    shader->SetPointLights(pointLights, pointLightCount);
-    shader->SetSpotLights(spotLights, spotLightCount);
+    if (shader)
+    {
+        shader->SetDirectionalLight(&directionalLight);
+        shader->SetPointLights(pointLights, pointLightCount);
+        shader->SetSpotLights(spotLights, spotLightCount);
+    }
 }
 

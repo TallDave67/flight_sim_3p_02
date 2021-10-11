@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 #include "Constants.h"
 #include "EntityManager.h"
@@ -13,13 +14,13 @@ public:
     LightManager();
     ~LightManager();
 
-    void initialize(EntityManager * _entityManager);
+    void initialize(std::shared_ptr<EntityManager> _entityManager);
 
     void moveLights();
     void setLights(std::shared_ptr<Shader>);
 
 private:
-    EntityManager* entityManager;
+    std::shared_ptr<EntityManager> entityManager;
     DirectionalLight directionalLight;
     PointLight pointLights[MAX_POINT_LIGHTS];
     SpotLight spotLights[MAX_SPOT_LIGHTS];

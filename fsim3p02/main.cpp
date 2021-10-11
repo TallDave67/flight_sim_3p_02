@@ -44,7 +44,6 @@ int main()
     {
         return 1;
     }
-
     int ret = mainWindow->initialize(WINDOW_WIDTH, WINDOW_HEIGHT);
     if (ret != 0)
     {
@@ -52,9 +51,21 @@ int main()
     }
 
     // Initialize our Managers
-    entityManager.initialize();
-    lightManager.initialize(&entityManager);
-    shaderManager.initialize();
+    std::shared_ptr<EntityManager> entityManager = std::make_shared<EntityManager>();
+    std::shared_ptr<LightManager> lightManager = std::make_shared<LightManager>();
+    std::shared_ptr<ShaderManager> shaderManager = std::make_shared<ShaderManager>();
+    if (!(entityManager && lightManager && shaderManager))
+    {
+        return 1;
+    }
+    //
+    entityManager->initialize();
+    lightManager->initialize(entityManager);
+    shaderManager->initialize();
+    if (!shaderManager->getShader(0))
+    {
+        return 1;
+    }
 
     // Initiliaze our camera
     camera.initialize(mainWindow, glm::vec3(0.0f, 0.0f, TRANSLATION_MAX_OFFSET), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 
@@ -88,24 +99,24 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Set our shader
-        shaderManager.useShader(0);
+        shaderManager->useShader(0);
     
         // Projection
-        glUniformMatrix4fv(shaderManager.getShader(0)->GetProjectionLocation(), 1, GL_FALSE, glm::value_ptr(projection));
+        glUniformMatrix4fv(shaderManager->getShader(0)->GetProjectionLocation(), 1, GL_FALSE, glm::value_ptr(projection));
 
         // Camera (View)
-        glUniformMatrix4fv(shaderManager.getShader(0)->GetViewLocation(), 1, GL_FALSE, glm::value_ptr(camera.getView()));
+        glUniformMatrix4fv(shaderManager->getShader(0)->GetViewLocation(), 1, GL_FALSE, glm::value_ptr(camera.getView()));
 
         // Eye
-        glUniform3f(shaderManager.getShader(0)->GetEyeLocation(), camera.getCameraEye().x, camera.getCameraEye().y, camera.getCameraEye().z);
+        glUniform3f(shaderManager->getShader(0)->GetEyeLocation(), camera.getCameraEye().x, camera.getCameraEye().y, camera.getCameraEye().z);
         
         // Lights
-        lightManager.moveLights();
-        lightManager.setLights(shaderManager.getShader(0));
+        lightManager->moveLights();
+        lightManager->setLights(shaderManager->getShader(0));
 
         // Render
-        entityManager.moveEntities();
-        entityManager.renderEntities(shaderManager.getShader(0));
+        entityManager->moveEntities();
+        entityManager->renderEntities(shaderManager->getShader(0));
 
         glUseProgram(0);
 
